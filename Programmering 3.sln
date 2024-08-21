@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35201.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 1 - Class library tutorial", "Session 1 - Class library tutorial", "{53F853AF-861F-4EC4-ADED-5B44D252FDBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesLibraries", "Class Library tutorial - StringLibrary\UtilitiesLibraries.csproj", "{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShowCase", "ShowCase\ShowCase.csproj", "{109DEE4D-070B-40DC-BA36-586B1107214B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 1 - Unit testing tutorial", "Session 1 - Unit testing tutorial", "{3502ED53-76EA-4095-A2A1-7458561FED21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeService", "unit-testing-using-dotnet-test\PrimeService\PrimeService.csproj", "{8D32E191-9DF4-4F98-89D5-50813C6A2314}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeService.Tests", "unit-testing-using-dotnet-test\PrimeService.Tests\PrimeService.Tests.csproj", "{89FD09EC-B0E1-4084-97DC-C9EC99A672C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 1 - Kap 35 xUnit test project", "Session 1 - Kap 35 xUnit test project", "{BF9183DA-98FA-419D-9C13-FD2F138ABB7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\TestProject.csproj", "{D3F8777E-3C18-4208-A362-3F95171B5EE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session 1 - SOLID eksempler", "Session 1 - SOLID eksempler", "{5D2005C7-7B94-47F6-BC70-2E547D0E7A2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sesison 1 - Exercise 1 SOLID", "Sesison 1 - Exercise 1 SOLID", "{48B2373F-9C55-487D-8EB2-7B7E2BEC2407}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BerengKvadratmeter", "BerengKvadratmeter\BerengKvadratmeter.csproj", "{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BerergnKvadratmeterLøsning", "BerergnKvadratmeterLøsning\BerergnKvadratmeterLøsning.csproj", "{4D6F005B-12F2-4FAB-8F37-394765B53EFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Before-After", "SOLID eksempler\Before-After\Before-After.csproj", "{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109DEE4D-070B-40DC-BA36-586B1107214B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109DEE4D-070B-40DC-BA36-586B1107214B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109DEE4D-070B-40DC-BA36-586B1107214B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109DEE4D-070B-40DC-BA36-586B1107214B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D32E191-9DF4-4F98-89D5-50813C6A2314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D32E191-9DF4-4F98-89D5-50813C6A2314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D32E191-9DF4-4F98-89D5-50813C6A2314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D32E191-9DF4-4F98-89D5-50813C6A2314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89FD09EC-B0E1-4084-97DC-C9EC99A672C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89FD09EC-B0E1-4084-97DC-C9EC99A672C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89FD09EC-B0E1-4084-97DC-C9EC99A672C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89FD09EC-B0E1-4084-97DC-C9EC99A672C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F8777E-3C18-4208-A362-3F95171B5EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F8777E-3C18-4208-A362-3F95171B5EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F8777E-3C18-4208-A362-3F95171B5EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F8777E-3C18-4208-A362-3F95171B5EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D6F005B-12F2-4FAB-8F37-394765B53EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D6F005B-12F2-4FAB-8F37-394765B53EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D6F005B-12F2-4FAB-8F37-394765B53EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D6F005B-12F2-4FAB-8F37-394765B53EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81CE27C0-9955-47A8-BB8B-CD3533DBC7BD} = {53F853AF-861F-4EC4-ADED-5B44D252FDBF}
+		{109DEE4D-070B-40DC-BA36-586B1107214B} = {53F853AF-861F-4EC4-ADED-5B44D252FDBF}
+		{8D32E191-9DF4-4F98-89D5-50813C6A2314} = {3502ED53-76EA-4095-A2A1-7458561FED21}
+		{89FD09EC-B0E1-4084-97DC-C9EC99A672C9} = {3502ED53-76EA-4095-A2A1-7458561FED21}
+		{D3F8777E-3C18-4208-A362-3F95171B5EE6} = {BF9183DA-98FA-419D-9C13-FD2F138ABB7D}
+		{70B25999-05A8-4BB8-AA03-DD7BAAF0A82E} = {48B2373F-9C55-487D-8EB2-7B7E2BEC2407}
+		{4D6F005B-12F2-4FAB-8F37-394765B53EFC} = {48B2373F-9C55-487D-8EB2-7B7E2BEC2407}
+		{54DBC33B-0CDB-485B-BC7C-2D980FBBF54D} = {5D2005C7-7B94-47F6-BC70-2E547D0E7A2E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94E3AD26-637B-4EB0-A8ED-4006761E5E18}
+	EndGlobalSection
+EndGlobal
