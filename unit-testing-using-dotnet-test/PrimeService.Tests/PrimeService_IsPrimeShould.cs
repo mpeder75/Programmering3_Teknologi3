@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 using PrimeService;
 
 namespace PrimeService.Tests
 {
-    public class PrimeService_IsPrimeShould
-    {
         public class PrimeService_IsPrimeShould
         {
             private readonly PrimeService _primeService;
@@ -56,7 +50,5 @@ namespace PrimeService.Tests
                 Assert.False(result, $"{value} should not be prime");
             }
         }
-
-
     }
-}
+
