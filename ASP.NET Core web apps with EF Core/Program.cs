@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//NOTE: builder.Services er DI container
 builder.Services.AddRazorPages();
-// AddDbContext metoden registrere ContosoDbContext i DI containeren
+//NOTE: AddDbContext metoden registrere ContosoDbContext i DI containeren Services 
 builder.Services.AddDbContext<ContosoPizzaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ContosoPizza")));
 
