@@ -6,14 +6,11 @@ namespace Server.Handler
     public class ClientHandler
     {
         private readonly Socket _clientSocket;
-        private readonly CancellationToken _cancellationToken;
         private readonly Action<string, Socket> _broadcastMessage;
 
-        public ClientHandler(Socket clientSocket, CancellationToken cancellationToken,
-            Action<string, Socket> broadcastMessage)
+        public ClientHandler(Socket clientSocket, Action<string, Socket> broadcastMessage)
         {
             _clientSocket = clientSocket;
-            _cancellationToken = cancellationToken;
             _broadcastMessage = broadcastMessage;
         }
 
@@ -21,12 +18,12 @@ namespace Server.Handler
         {
             try
             {
-                while (!_cancellationToken.IsCancellationRequested)
+                while (true)
                 {
                     // Receive the length of the incoming message
                     byte[] lengthBytes = new byte[4];
                     int bytesRec = _clientSocket.Receive(lengthBytes);
-                    if (bytesRec == 0) break; // Connection closed
+                    if (bytesRec == 0) break; 
 
                     int messageLength = BitConverter.ToInt32(lengthBytes, 0);
 
@@ -47,7 +44,6 @@ namespace Server.Handler
             }
             finally
             {
-                // Shutdown and close the client socket
                 _clientSocket.Shutdown(SocketShutdown.Both);
                 _clientSocket.Close();
             }

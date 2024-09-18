@@ -7,11 +7,8 @@ namespace Server.Handler
     public class ServerSocketHandler
     {
         private readonly IPEndPoint _localEndPoint;
-        // Liste af client sockets
-        private readonly List<Socket> _clientSockets = new List<Socket>();
-        
+        private readonly List<Socket> _clientSockets = new List<Socket>();    // Liste af client sockets
         private Socket _listeningPort;
-        private CancellationTokenSource _cancellationTokenSource;
 
         public ServerSocketHandler(string ipAddress, int port)
         {
@@ -21,50 +18,44 @@ namespace Server.Handler
 
         public void Start()
         {
-            _cancellationTokenSource = new CancellationTokenSource();
-            // opretter ny thread for at oprete serveren i baggrunden og ikke blokere main thread
-            Thread serverThread = new Thread(() => RunServer(_cancellationTokenSource.Token));
+            // Opretter ny thread for at oprette serveren på, så main thread ikke blokeres
+            Thread serverThread = new Thread(RunServer);
             serverThread.Start();
         }
 
-
         public void Stop()
         {
-            _cancellationTokenSource.Cancel();
-
-            // Close the listener socket to stop accepting new clients
-            _listeningPort?.Close();
-
-            // Close all client sockets
-            lock (_clientSockets)
+           _listeningPort?.Close();  // Lukker listening socket
+            
+            lock (_clientSockets)    // Locks client sockets, så der ikke kan tilgås samtidig
             {
                 foreach (var clientSocket in _clientSockets)
                 {
                     clientSocket.Shutdown(SocketShutdown.Both);
                     clientSocket.Close();
                 }
-                _clientSockets.Clear();
+                _clientSockets.Clear(); // Tømmer listen a client sockets
             }
             Console.WriteLine("Server stopped.");
         }
 
 
-        private void RunServer(CancellationToken cancellationToken)
+        private void RunServer()
         {
-            // Opretter en socket til at lytte på indkommende connections
+            // Opretter ny socket til at lytte på port
             _listeningPort = new Socket(_localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             // Binder socket til local endpoint
             _listeningPort.Bind(_localEndPoint);
+            _listeningPort.Listen(10); // angiver hvor mange pending connections der kan være i kø, inde nr. 11 bliver afvist
 
-            Console.WriteLine("Venter på indkommendne connections...");
+            Console.WriteLine("Venter på indkommende connections...");
 
-            
-            while (!cancellationToken.IsCancellationRequested)
+            while (true)
             {
                 try
                 {
                     Socket clientSocket = _listeningPort.Accept();
-                    Console.WriteLine("Client connected.");
+                    Console.WriteLine("Client connected :-)");
 
                     lock (_clientSockets)
                     {
@@ -72,7 +63,7 @@ namespace Server.Handler
                     }
 
                     // Når client er accepteret, oprettes en ny tråd til at håndtere clienten
-                    ClientHandler clientHandler = new ClientHandler(clientSocket, cancellationToken, BroadcastToAll);
+                    ClientHandler clientHandler = new ClientHandler(clientSocket, BroadcastToAll);
                     Thread clientThread = new Thread(clientHandler.HandleClient);
                     clientThread.Start();
                 }
@@ -83,12 +74,13 @@ namespace Server.Handler
             }
         }
 
-        // Metode der sender besked vidre til alle clienter
+        // Metode der sender besked videre til alle clienter
         private void BroadcastToAll(string message, Socket excludeSocket)
         {
             byte[] msg = Encoding.ASCII.GetBytes(message);
             lock (_clientSockets)
             {
+                List<Socket> disconnectedSockets = new List<Socket>();
                 foreach (var clientSocket in _clientSockets)
                 {
                     if (clientSocket != excludeSocket)
@@ -97,14 +89,32 @@ namespace Server.Handler
                         {
                             clientSocket.Send(msg);
                         }
-                        catch (SocketException)
+                        catch (Exception)
                         {
-                            clientSocket.Shutdown(SocketShutdown.Both);
-                            clientSocket.Close();
+                            disconnectedSockets.Add(clientSocket);
                         }
                     }
                 }
+                RemoveDisconnectedSockets(disconnectedSockets);
+            }
+        }
+
+        // Metode der fjerner afbrudte sockets fra listen -
+        // HVIS vi afbryder en client fra serveren, og vi forsøger at broadcaste en ny besked til alle client
+        // vil vi få en exception, da clienten ikke længere er tilsluttet
+        private void RemoveDisconnectedSockets(List<Socket> disconnectedSockets)
+        {
+            foreach (var socket in disconnectedSockets)
+            {
+                try
+                {
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch (SocketException) { }
+                _clientSockets.Remove(socket);
             }
         }
     }
 }
+
