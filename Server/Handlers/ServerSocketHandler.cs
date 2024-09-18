@@ -24,9 +24,9 @@ namespace Server.Handler
 
         public void Stop()
         {
-            _listeningPort?.Close();  // Lukker listening socket
+            _listeningPort?.Close();                          // Lukker listening socket
 
-            lock (_clientSockets) // Locks client sockets, så der ikke kan tilgås samtidig
+            lock (_clientSockets)                             // Locks client sockets, så der ikke kan tilgås samtidig
             {
                 foreach (var clientSocket in _clientSockets)
                 {
@@ -37,7 +37,7 @@ namespace Server.Handler
                     catch (SocketException) { }
                     clientSocket.Close();
                 }
-                _clientSockets.Clear(); // Tømmer listen a client sockets
+                _clientSockets.Clear();                     // Tømmer listen a client sockets
             }
             Console.WriteLine("Server stopped.");
         }
@@ -46,8 +46,8 @@ namespace Server.Handler
         private void RunServer()
         {
             _listeningPort = new Socket(_localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);  // Opretter ny socket til at lytte på port
-            _listeningPort.Bind(_localEndPoint);      // Binder socket til local endpoint
-            _listeningPort.Listen(10);        // angiver hvor mange pending connections der kan være i kø, inde nr. 11 bliver afvist
+            _listeningPort.Bind(_localEndPoint);                                                             // Binder socket til local endpoint
+            _listeningPort.Listen(10);                                                                // connection nr. 11 bliver afvist
 
             Console.WriteLine("Venter på indkommende connections...");
 
@@ -63,7 +63,7 @@ namespace Server.Handler
                         _clientSockets.Add(clientSocket);
                     }
 
-                    // Når client er accepteret, oprettes en ny tråd til at håndtere clienten
+                    // Opretter ny client handler og thread til at håndtere client beskeder og broadcaste til alle clienter
                     ClientHandler clientHandler = new ClientHandler(clientSocket, BroadcastToAll);
                     Thread clientThread = new Thread(clientHandler.HandleClient);
                     clientThread.Start();
@@ -92,49 +92,33 @@ namespace Server.Handler
                         }
                         catch (Exception)
                         {
-                            //
+                            disconnectedSockets.Add(clientSocket);
+                            Console.WriteLine("Client disconnected abruptly.");
                         }
                     }
                 }
+                RemoveDisconnectedSockets(disconnectedSockets);
             }
         }
 
         // Metode der fjerner afbrudte sockets fra listen
         // Hvorfor? HVIS vi afbryder en client fra serveren, og vi forsøger at broadcaste en ny besked til alle client
         // vil vi få en exception, da clienten ikke længere er tilsluttet
-        private void RemoveDisconnectedSockets()
+        private void RemoveDisconnectedSockets(List<Socket> disconnectedSockets)
         {
-            List<Socket> disconnectedSockets = new List<Socket>();
-            lock (_clientSockets)
+            foreach (var socket in disconnectedSockets)
             {
-                foreach (var clientSocket in _clientSockets)
+                try
                 {
-                    if (!clientSocket.Connected)
-                    {
-                        disconnectedSockets.Add(clientSocket);
-                    }
+                    socket.Shutdown(SocketShutdown.Both);
                 }
-
-                foreach (var socket in disconnectedSockets)
-                {
-                    try
-                    {
-                        socket.Shutdown(SocketShutdown.Both);
-                    }
-                    catch (SocketException) { }
-                    catch (ObjectDisposedException) { }
-                    socket.Close();
-                    _clientSockets.Remove(socket);
-                }
+                catch (SocketException) { }
+                catch (ObjectDisposedException) { }
+                socket.Close();
+                _clientSockets.Remove(socket);
             }
-        }
-
-        // Method to broadcast message and then remove disconnected sockets
-        private void BroadcastAndCleanUp(string message, Socket excludeSocket)
-        {
-            BroadcastToAll(message, excludeSocket);
-            RemoveDisconnectedSockets();
         }
     }
 }
+
 
