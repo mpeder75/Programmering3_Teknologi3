@@ -1,0 +1,6 @@
+@Session7_Middleware_Eksempel_HostAddress = http://localhost:5147
+
+GET {{Session7_Middleware_Eksempel_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
