@@ -20,23 +20,24 @@ namespace Server.Handler
             {
                 while (true)
                 {
-                    // Receive the length of the incoming message
                     byte[] lengthBytes = new byte[4];
                     int bytesRec = _clientSocket.Receive(lengthBytes);
                     if (bytesRec == 0) break; 
 
-                    int messageLength = BitConverter.ToInt32(lengthBytes, 0);
+                    int messageLength = BitConverter.ToInt32(lengthBytes, 0);          // Konverterer byte array til int
 
-                    // Receive the actual message
-                    byte[] messageBytes = new byte[messageLength];
-                    bytesRec = _clientSocket.Receive(messageBytes);
-                    string data = Encoding.ASCII.GetString(messageBytes, 0, bytesRec);
+                    byte[] messageBytes = new byte[messageLength];                     // Modtager besked fra client og konverterer til byte array
+                    bytesRec = _clientSocket.Receive(messageBytes);                    // Modtager besked fra client og lægger i messageBytes
+                    string data = Encoding.ASCII.GetString(messageBytes, 0, bytesRec); // Konverterer byte array til string
 
                     Console.WriteLine("Text received : {0}", data);
-
-                    // Broadcast the message to all other clients
+                    
                     _broadcastMessage(data, _clientSocket);
                 }
+            }
+            catch (SocketException)
+            {
+                Console.WriteLine("Client disconnected abruptly.");
             }
             catch (Exception e)
             {
@@ -44,7 +45,11 @@ namespace Server.Handler
             }
             finally
             {
-                _clientSocket.Shutdown(SocketShutdown.Both);
+                try
+                {
+                    _clientSocket.Shutdown(SocketShutdown.Both);
+                }
+                catch (SocketException) { }
                 _clientSocket.Close();
             }
         }
