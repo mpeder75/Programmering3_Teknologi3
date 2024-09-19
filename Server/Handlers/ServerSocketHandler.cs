@@ -49,7 +49,6 @@ namespace Server.Handler
             _listeningPort.Bind(_localEndPoint);                                                             // Binder socket til local endpoint
             _listeningPort.Listen(10);                                                                // connection nr. 11 bliver afvist
 
-            Console.WriteLine("Venter på indkommende connections...");
 
             while (true)
             {

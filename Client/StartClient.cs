@@ -33,19 +33,20 @@ static void StartClient()
             Thread receiveThread = new Thread(() => ReceiveMessages(sender));
             receiveThread.Start();
 
-            // Sikre at Client IKKE lukker ned
             while (true)
             {
-                Console.Write("Input besked ('e' for at afslutte): ");
+                Console.Write("Input besked (tryk e for exit): ");
                 string message = Console.ReadLine();
 
                 if (message.ToLower() == "e")
                 {
+                    sender.Shutdown(SocketShutdown.Both);
+                    sender.Close();
                     break;
                 }
 
-                byte[] msg = Encoding.ASCII.GetBytes(message);
-                byte[] msgLength = BitConverter.GetBytes(msg.Length);
+                byte[] msg = Encoding.ASCII.GetBytes(message); 
+                byte[] msgLength = BitConverter.GetBytes(msg.Length); 
 
                 sender.Send(msgLength);
                 sender.Send(msg);
@@ -57,14 +58,6 @@ static void StartClient()
         {
             Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
         }
-        catch (SocketException se)
-        {
-            Console.WriteLine("SocketException : {0}", se.ToString());
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Unexpected exception : {0}", e.ToString());
-        }
     }
     catch (Exception e)
     {
@@ -74,6 +67,7 @@ static void StartClient()
 
 static void ReceiveMessages(Socket sender)
 {
+    // container for beskeder der streames til socket
     byte[] bytes = new byte[1024];
     try
     {
