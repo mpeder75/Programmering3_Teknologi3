@@ -34,4 +34,22 @@ public class GithubClient : IGithubService
 
         return response?.Length ?? 0;
     }
+
+    async Task<string[]> IGithubService.GetOrganizations(string username)
+    {
+        var httpResponseMessage = await _client.GetAsync($"users/{username}/orgs");
+
+        var response = await httpResponseMessage.Content.ReadFromJsonAsync<dynamic[]>();
+
+        return response?.Select(org => (string)org.login).ToArray() ?? new string[0];
+    }
+
+   async  Task<int> IGithubService.GetFollowingCount(string username)
+    {
+        var httpResponseMessage = await _client.GetAsync($"users/{username}/following");
+        
+        var response = await httpResponseMessage.Content.ReadFromJsonAsync<object[]>();
+
+        return response?.Length ?? 0;
+    }
 }

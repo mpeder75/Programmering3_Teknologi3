@@ -36,5 +36,21 @@ namespace HttpClientFactory.Controllers
             var repoCount = await _client.GetRepositoryCount(username);
             return Ok(repoCount);
         }
+
+        [HttpGet]
+        [Route("GetFollowingCount/{username}")]
+        public async Task<IActionResult> GetFollowingCount([FromRoute] string username)
+        {
+            var followingCount = await _client.GetFollowingCount(username);
+            return Ok(followingCount);
+        }
+
+        [HttpGet]
+        [Route("GetOrganizations/{username}")]
+        public async Task<IActionResult> GetOrganizations([FromRoute] string username)
+        {
+            var organizations = await _client.GetOrganizations(username);
+            return Ok(organizations);
+        }
     }
 }
